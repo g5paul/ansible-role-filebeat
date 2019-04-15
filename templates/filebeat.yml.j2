@@ -1,7 +1,11 @@
 filebeat:
-  # List of prospectors to fetch data.
-  prospectors:
-    {{ filebeat_prospectors | to_json }}
+# List of inputs
+filebeat.inputs:
+  {{ filebeat_inputs | to_json }}
+
+# Default location of filebeat modules
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
 
 # Configure what outputs to use when sending the data collected by the beat.
 # Multiple outputs may be used.
