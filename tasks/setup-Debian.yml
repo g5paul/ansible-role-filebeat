@@ -1,6 +1,7 @@
 ---
 - name: Ensure dependency is installed (Ubuntu).
   apt: name=apt-transport-https state=present
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Add Elasticsearch apt key.
   apt_key:
@@ -10,6 +11,17 @@
 
 - name: Add Filebeat repository.
   apt_repository:
-    repo: 'deb https://artifacts.elastic.co/packages/{{ filebeat_version }}/apt stable main'
+    repo: 'deb https://artifacts.elastic.co/packages/{{ filebeat_major_version }}/apt stable main'
     state: present
     update_cache: true
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Install filebeat
+  apt:
+    name: '{{ filebeat_package }}{% if filebeat_version is defined and filebeat_version != "" %}={{ filebeat_version }}{% endif %}'
+    state: present
+    #state: "{{ filebeat_package_state }}"
+    #force: '{{ force_install }}'
+    #allow_unauthenticated: "{{ 'no' if filebeat_apt_key else 'yes' }}"
+    cache_valid_time: 86400
+  ignore_errors: "{{ ansible_check_mode }}"
