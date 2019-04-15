@@ -12,20 +12,22 @@ None.
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-    filebeat_version: 6.x
+    filebeat_major_version: 6.x
+    filebeat_version: 6.5.4
 
-Controls the major version of Filebeat which is installed.
+Controls the major and minor version of Filebeat which is installed.
 
     filebeat_create_config: true
 
 Whether to create the Filebeat configuration file and handle the copying of SSL key and cert for filebeat. If you prefer to create a configuration file yourself you can set this to `false`.
 
-    filebeat_prospectors:
-      - input_type: log
+    filebeat_inputs:
+      - type: log
+        enabled: true
         paths:
-          - "/var/log/*.log"
+          - /var/log/*.log
 
-Prospectors that will be listed in the `prospectors` section of the Filebeat configuration. Read through the [Filebeat Prospectors configuration guide](https://www.elastic.co/guide/en/beats/filebeat/current/configuration-filebeat-options.html) for more options.
+Inputs that will be listed in the `inputs` section of the Filebeat configuration. Read through the [Filebeat Prospectors configuration guide](https://www.elastic.co/guide/en/beats/filebeat/current/configuration-filebeat-options.html) for more options.
 
     filebeat_output_elasticsearch_enabled: false
     filebeat_output_elasticsearch_hosts:
@@ -35,7 +37,7 @@ Whether to enable Elasticsearch output, and which hosts to send output to.
 
     filebeat_output_logstash_enabled: true
     filebeat_output_logstash_hosts:
-      - "localhost:5000"
+      - "localhost:5044"
 
 Whether to enable Logstash output, and which hosts to send output to.
 
